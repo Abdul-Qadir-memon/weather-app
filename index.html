@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="weather.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <span class="logo">Weather App</span>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <h1>Weather App</h1>
+  <input type="text" id="city" placeholder="Enter city name">
+  <button onclick="getWeather()">Get Weather</button>
+  <button onclick="getWeatherByLocation()">Use My Location</button>
+
+  <div id="weather">
+
+  </div>
+  <div class="map-container">
+    <div id="map"></div>
+  </div>
+
+  <script>
+    const API_KEY = '5d8b466632ebd42fec42bada42ad3647';
+
+    async function getWeather() {
+      const city = document.getElementById('city').value;
+      if (!city) return alert('Please enter a city name.');
+
+      try {
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
+        displayWeather(response.data);
+        showMap(response.data.coord.lat, response.data.coord.lon);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          alert('City not found. Please check the spelling.');
+        } else {
+          //  
+        }
+      }
+    }
+
+    async function getWeatherByLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async position => {
+            const { latitude, longitude } = position.coords;
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`); // Check if it's accurate
+            try {
+              const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
+              displayWeather(response.data);
+              showMap(latitude, longitude);
+            } catch (error) {
+              alert('An error occurred while fetching weather data.');
+              console.error(error);
+            }
+          },
+          error => {
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                alert('Location permission denied.');
+                break;
+              case error.POSITION_UNAVAILABLE:
+                alert('Location information is unavailable.');
+                break;
+              case error.TIMEOUT:
+                alert('The request to get user location timed out.');
+                break;
+              default:
+                alert('An unknown error occurred.');
+            }
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      } else {
+        alert('Geolocation is not supported by this browser.');
+      }
+    }
+
+    function displayWeather(data) {
+      const windSpeedKmh = (data.wind.speed * 3.6).toFixed(2);
+
+     const weatherDiv = document.getElementById('weather');
+      weatherDiv.innerHTML = `
+    <h2>${data.name}, ${data.sys.country}</h2>
+    <div class="weather-info">
+      <div class="weather-item">
+        <strong>Temperature:</strong> ${data.main.temp}°C
+      </div>
+      <div class="weather-item">
+        <strong>Weather:</strong> ${data.weather[0].description}
+      </div>
+      <div class="weather-item">
+        <strong>Humidity:</strong> ${data.main.humidity}%
+      </div>
+      <div class="weather-item">
+        <strong>Wind Speed:</strong> ${data.wind.speed} km/h
+      </div>
+      <div class="weather-item">
+        <strong>Sunrise:</strong> ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}
+      </div>
+      <div class="weather-item">
+        <strong>Sunset:</strong> ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}
+      </div>
+    </div>
+  `; setTimeout(() => {
+        document.querySelector('.weather-info').classList.add('show');
+      }, 100); // Small delay for smooth animation
+    }
+
+
+
+    let map; // Declare map globally
+
+    function showMap(lat, lon) {
+      if (map) {
+        map.remove(); // Remove the existing map instance if it exists
+      }
+
+      map = L.map('map').setView([lat, lon], 13); // Create a new map instance
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+      L.marker([lat, lon]).addTo(map).bindPopup('Weather Location').openPopup();
+    }
+
+  </script>
+</body>
+
+</html>
