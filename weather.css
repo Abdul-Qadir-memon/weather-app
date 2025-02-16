@@ -7,7 +7,23 @@ body {
   text-align: center;
   padding: 20px;
 }
+.box {
+  align-items: center;
+  justify-content: center;
+  display: inline-block;
+  width: 200px;
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0px 0px 5px rgba(255, 255, 255, 0.6);
+}
 
+.get-started-btn:hover {
+  filter: drop-shadow(0px 0px 5px rgba(255, 255, 250, 0.3));
+  transition: filter-drop-shadow 0.20s;
+}
+
+.pic {
+  width: 100%;
+}
 h1 {
   font-size: 3rem;
   margin-bottom: 20px;
