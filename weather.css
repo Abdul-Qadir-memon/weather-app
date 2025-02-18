@@ -7,6 +7,50 @@ body {
   text-align: center;
   padding: 20px;
 }
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #f5f5f5;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+input[type="text"] {
+  padding: 12px 20px;
+  width: 100%;
+  max-width: 400px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  outline: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease-in-out;
+}
+
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: hsl(0, 0%, 95%);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 10px;
+  filter: drop-shadow(0px 0px 5px rgba(255, 255, 250, 0.3));
+  transition: filter drop-shadow 0.20s;
+}
+
+button:hover {
+  filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.6));
+}
+
+button:active {
+  filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 1));
+}
+
 .box {
   align-items: center;
   justify-content: center;
@@ -18,43 +62,11 @@ body {
 
 .get-started-btn:hover {
   filter: drop-shadow(0px 0px 5px rgba(255, 255, 250, 0.3));
-  transition: filter-drop-shadow 0.20s;
+  transition: filter drop-shadow 0.20s;
 }
 
 .pic {
   width: 100%;
-}
-h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  color: #f5f5f5;
-  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
-input[type="text"] {
-  padding: 12px 20px;
-  width: 90%;
-  max-width: 500px;
-  border: none;
-  border-radius: 30px;
-  font-size: 1.2rem;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  outline: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: 0.3s ease-in-out;
-}
-
-button {
-  padding: 12px 25px;
-  border: none;
-  border-radius: 30px;
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
-  color: hsl(0, 0%, 85%);
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 10px;
 }
 
 #weather {
@@ -104,6 +116,11 @@ nav {
   color: white;
   font-size: 1.2rem;
   transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  filter: drop-shadow(0px 0px 5px rgba(255, 255, 250, 0.3));
+  color: #fcba87;
 }
 
 .weather-info {
@@ -175,5 +192,16 @@ nav {
 
   #map {
     height: 250px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+  align-items: center;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    align-items: center;
   }
 }
